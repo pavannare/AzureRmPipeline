@@ -1,0 +1,13 @@
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Free Trial(623268e1-421e-47ed-aa57-cd0b56fcf3cb)'
+    subscriptionId: '623268e1-421e-47ed-aa57-cd0b56fcf3cb'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'ng'
+    location: 'East US'
+    templateLocation: 'Linked artifact'
+    csmFile: 'azure.json'
+    csmParametersFile: 'parameters.json'
+    deploymentMode: 'Incremental'
+    deploymentName: 'azuredevops'
