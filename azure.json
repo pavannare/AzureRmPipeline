@@ -5,6 +5,9 @@
         "location": {
             "type": "string"
         },
+        "networkInterfaceName": {
+            "type": "string"
+        },
         "subnetName": {
             "type": "string"
         },
@@ -31,6 +34,9 @@
         },
         "adminPassword": {
             "type": "secureString"
+        },
+        "patchMode": {
+            "type": "string"
         }
     },
     "variables": {
@@ -78,9 +84,9 @@
                         }
                     },
                     "imageReference": {
-                        "publisher": "OpenLogic",
-                        "offer": "CentOS",
-                        "sku": "8_2",
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2019-Datacenter",
                         "version": "latest"
                     }
                 },
@@ -94,7 +100,14 @@
                 "osProfile": {
                     "computerName": "[parameters('virtualMachineComputerName')]",
                     "adminUsername": "[parameters('adminUsername')]",
-                    "adminPassword": "[parameters('adminPassword')]"
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "windowsConfiguration": {
+                        "enableAutomaticUpdates": true,
+                        "provisionVmAgent": true,
+                        "patchSettings": {
+                            "patchMode": "[parameters('patchMode')]"
+                        }
+                    }
                 },
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
