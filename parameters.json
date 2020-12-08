@@ -15,10 +15,10 @@
             "value": "/subscriptions/623268e1-421e-47ed-aa57-cd0b56fcf3cb/resourceGroups/ng/providers/Microsoft.Network/virtualNetworks/aadds-vnet"
         },
         "virtualMachineName": {
-            "value": "vm6"
+            "value": "vm8"
         },
         "virtualMachineComputerName": {
-            "value": "vm6"
+            "value": "vm8"
         },
         "virtualMachineRG": {
             "value": "ng"
