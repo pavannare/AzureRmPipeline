@@ -26,4 +26,4 @@ steps:
         csmFile: 'azure.json'
         csmParametersFile: 'parameters.json'
         deploymentMode: 'Incremental'
-        deploymentName: 'tg1'
+        
