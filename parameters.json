@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "clusterName": {
-            "value": "hd1"
+            "value": "hd2"
         },
         "clusterLoginUserName": {
             "value": "admin"
@@ -12,10 +12,10 @@
             "value": "Pavan@1234"
         },
         "location": {
-            "value": "eastus"
+            "value": "westus"
         },
         "clusterWorkerNodeCount": {
-            "value": 2
+            "value": 1
         },
         "clusterKind": {
             "value": "HADOOP"
@@ -27,7 +27,7 @@
             "value": "sshuser"
         },
         "sshPassword": {
-            "value": "Pavan@12345678"
+            "value": "Pavan@1234"
         },
         "minTlsVersionNumber": {
             "value": "1.2"
