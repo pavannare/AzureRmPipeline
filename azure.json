@@ -1,126 +1,94 @@
 {
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "location": {
-            "type": "string"
+        "clusters_hd1_name": {
+            "defaultValue": "hd1",
+            "type": "String"
         },
-        "networkInterfaceName": {
-            "type": "string"
-        },
-        "subnetName": {
-            "type": "string"
-        },
-        "virtualNetworkId": {
-            "type": "string"
-        },
-        "virtualMachineName": {
-            "type": "string"
-        },
-        "virtualMachineComputerName": {
-            "type": "string"
-        },
-        "virtualMachineRG": {
-            "type": "string"
-        },
-        "osDiskType": {
-            "type": "string"
-        },
-        "virtualMachineSize": {
-            "type": "string"
-        },
-        "adminUsername": {
-            "type": "string"
-        },
-        "adminPassword": {
-            "type": "secureString"
-        },
-        "patchMode": {
-            "type": "string"
+        "storageAccounts_hdinsight_externalid": {
+            "defaultValue": "/subscriptions/623268e1-421e-47ed-aa57-cd0b56fcf3cb/resourceGroups/ng/providers/Microsoft.Storage/storageAccounts/hdinsight",
+            "type": "String"
         }
     },
-    "variables": {
-        "vnetId": "[parameters('virtualNetworkId')]",
-        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
-    },
+    "variables": {},
     "resources": [
         {
-            "name": "[parameters('networkInterfaceName')]",
-            "type": "Microsoft.Network/networkInterfaces",
-            "apiVersion": "2018-10-01",
-            "location": "[parameters('location')]",
-            "dependsOn": [],
+            "type": "Microsoft.HDInsight/clusters",
+            "apiVersion": "2018-06-01-preview",
+            "name": "[parameters('clusters_hd1_name')]",
+            "location": "West US",
             "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "ipconfig1",
-                        "properties": {
-                            "subnet": {
-                                "id": "[variables('subnetRef')]"
-                            },
-                            "privateIPAllocationMethod": "Dynamic"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "name": "[parameters('virtualMachineName')]",
-            "type": "Microsoft.Compute/virtualMachines",
-            "apiVersion": "2020-06-01",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
-            ],
-            "properties": {
-                "hardwareProfile": {
-                    "vmSize": "[parameters('virtualMachineSize')]"
-                },
-                "storageProfile": {
-                    "osDisk": {
-                        "createOption": "fromImage",
-                        "managedDisk": {
-                            "storageAccountType": "[parameters('osDiskType')]"
-                        }
-                    },
-                    "imageReference": {
-                        "publisher": "MicrosoftWindowsServer",
-                        "offer": "WindowsServer",
-                        "sku": "2019-Datacenter",
-                        "version": "latest"
+                "clusterVersion": "3.6.1000.67",
+                "osType": "Linux",
+                "clusterDefinition": {
+                    "blueprint": "https://blueprints.azurehdinsight.net/hadoop-3.6.1000.67.2011120524.json",
+                    "kind": "HADOOP",
+                    "componentVersion": {
+                        "Hadoop": "2.7"
                     }
                 },
-                "networkProfile": {
-                    "networkInterfaces": [
+                "computeProfile": {
+                    "roles": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+                            "name": "headnode",
+                            "targetInstanceCount": 2,
+                            "hardwareProfile": {
+                                "vmSize": "standard_d12_v2"
+                            },
+                            "osProfile": {
+                                "linuxOperatingSystemProfile": {
+                                    "username": "sshuser"
+                                }
+                            }
+                        },
+                        {
+                            "name": "workernode",
+                            "targetInstanceCount": 1,
+                            "hardwareProfile": {
+                                "vmSize": "standard_e2_v3"
+                            },
+                            "osProfile": {
+                                "linuxOperatingSystemProfile": {
+                                    "username": "sshuser"
+                                }
+                            }
+                        },
+                        {
+                            "name": "zookeepernode",
+                            "targetInstanceCount": 3,
+                            "hardwareProfile": {
+                                "vmSize": "standard_a1_v2"
+                            },
+                            "osProfile": {
+                                "linuxOperatingSystemProfile": {
+                                    "username": "sshuser"
+                                }
+                            }
                         }
                     ]
                 },
-                "osProfile": {
-                    "computerName": "[parameters('virtualMachineComputerName')]",
-                    "adminUsername": "[parameters('adminUsername')]",
-                    "adminPassword": "[parameters('adminPassword')]",
-                    "windowsConfiguration": {
-                        "enableAutomaticUpdates": true,
-                        "provisionVmAgent": true,
-                        "patchSettings": {
-                            "patchMode": "[parameters('patchMode')]"
-                        }
-                    }
+                "tier": "standard",
+                "encryptionInTransitProperties": {
+                    "isEncryptionInTransitEnabled": false
                 },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": true
-                    }
-                }
+                "storageProfile": {
+                    "storageaccounts": [
+                        {
+                            "name": "hdinsight.blob.core.windows.net",
+                            "resourceId": "[parameters('storageAccounts_hdinsight_externalid')]",
+                            "container": "[concat(parameters('clusters_hd1_name'), '-2020-12-09t09-11-47-593z')]",
+                            "isDefault": true
+                        }
+                    ]
+                },
+                "minSupportedTlsVersion": "1.2"
             }
         }
-    ],
-    "outputs": {
-        "adminUsername": {
-            "type": "string",
-            "value": "[parameters('adminUsername')]"
-        }
-    }
+    ]
 }
+
+
+
+
+
