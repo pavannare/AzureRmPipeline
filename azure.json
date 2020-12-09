@@ -37,7 +37,7 @@
         },
         "clusterWorkerNodeCount": {
             "type": "int",
-            "defaultValue": 1,
+            "defaultValue": 2,
             "metadata": {
                 "description": "The number of nodes in the HDInsight cluster."
             }
@@ -128,7 +128,7 @@
                         {
                             "autoscale": null,
                             "name": "workernode",
-                            "targetInstanceCount": 1,
+                            "targetInstanceCount": 2,
                             "hardwareProfile": {
                                 "vmSize": "Standard_A2m_V2"
                             },
