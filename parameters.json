@@ -2,41 +2,35 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "clusterName": {
+            "value": "hd1"
+        },
+        "clusterLoginUserName": {
+            "value": "admin"
+        },
+        "clusterLoginPassword": {
+            "value": "Pavan@1234"
+        },
         "location": {
             "value": "eastus"
         },
-        "networkInterfaceName": {
-            "value": "vm6645"
+        "clusterWorkerNodeCount": {
+            "value": 2
         },
-        "subnetName": {
-            "value": "aadds-subnet"
+        "clusterKind": {
+            "value": "HADOOP"
         },
-        "virtualNetworkId": {
-            "value": "/subscriptions/623268e1-421e-47ed-aa57-cd0b56fcf3cb/resourceGroups/ng/providers/Microsoft.Network/virtualNetworks/aadds-vnet"
+        "clusterVersion": {
+            "value": "3.6"
         },
-        "virtualMachineName": {
-            "value": "vm8"
+        "sshUserName": {
+            "value": "sshuser"
         },
-        "virtualMachineComputerName": {
-            "value": "vm8"
-        },
-        "virtualMachineRG": {
-            "value": "ng"
-        },
-        "osDiskType": {
-            "value": "Premium_LRS"
-        },
-        "virtualMachineSize": {
-            "value": "Standard_DS1_v2"
-        },
-        "adminUsername": {
-            "value": "pavan"
-        },
-        "adminPassword": {
+        "sshPassword": {
             "value": "Pavan@12345678"
         },
-        "patchMode": {
-            "value": "AutomaticByOS"
+        "minTlsVersionNumber": {
+            "value": "1.2"
         }
     }
 }
